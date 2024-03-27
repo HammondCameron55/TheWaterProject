@@ -47,3 +47,7 @@ namespace TheWaterProject.Controllers
 
 // Pagination is a technique used to break up a large list of items into smaller, more manageable pieces.
 // This is useful when you have a large number of items to display, and you don't want to overwhelm the user with a long list.
+
+
+//If a property that is being passed in the URL route is not in an entry for the MapControllerRoute, it will show up as a key/value pair in the URL after the # sign
+// 

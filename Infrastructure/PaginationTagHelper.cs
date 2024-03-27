@@ -24,6 +24,11 @@ namespace TheWaterProject.Infrastructure
         public string? PageAction { get; set; } // C# knows that PageAction is refering to page-action in the view
         public PaginationInfo PageModel { get; set; }
 
+        public bool PageClassesEnabled { get; set; } = false;
+        public string? PageClass { get; set; } = String.Empty;
+        public string? PageClassNormal { get; set; } = String.Empty;
+        public string? PageClassSelected { get; set; } = String.Empty;
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             if (ViewContext != null && PageModel != null)
@@ -37,6 +42,14 @@ namespace TheWaterProject.Infrastructure
                     TagBuilder? tag = new TagBuilder("a");
                     string? url = urlHelper.Action(PageAction, new { pageNum = i });
                     tag.Attributes["href"] = url;
+
+                    if (PageClassesEnabled)
+                    {
+                        tag.AddCssClass(PageClass);
+                        tag.AddCssClass(i == PageModel.CurrentPage ? PageClassSelected : PageClassNormal);
+
+                    }
+
                     tag.InnerHtml.Append(i.ToString());
                     result.InnerHtml.AppendHtml(tag);
                 }
