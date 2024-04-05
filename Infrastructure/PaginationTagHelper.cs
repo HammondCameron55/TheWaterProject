@@ -22,6 +22,10 @@ namespace TheWaterProject.Infrastructure
         public ViewContext? ViewContext { get; set; }
 
         public string? PageAction { get; set; } // C# knows that PageAction is refering to page-action in the view
+
+        [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
+        public Dictionary<string, object> PageUrlValues { get; set; } = new Dictionary<string, object>();
+        
         public PaginationInfo PageModel { get; set; }
 
         public bool PageClassesEnabled { get; set; } = false;
@@ -40,8 +44,9 @@ namespace TheWaterProject.Infrastructure
                 for (int i = 1; i <= PageModel.TotalPages; i++) // Switch TotalPages for TotalNumPages if stuff breaks
                 {
                     TagBuilder? tag = new TagBuilder("a");
-                    string? url = urlHelper.Action(PageAction, new { pageNum = i });
-                    tag.Attributes["href"] = url;
+                    PageUrlValues["pageNum"] = i;
+                    
+                    tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
 
                     if (PageClassesEnabled)
                     {
