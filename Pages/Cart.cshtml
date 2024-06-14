@@ -1,0 +1,59 @@
+﻿@page
+@model TheWaterProject.Pages.CartModel
+@{
+}
+
+<h2>Your Cart</h2>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th>Project Name</th>
+            <th>Quantity</th>
+            <th class="text-right">Amount</th>
+            <th class="text-right">Subtotal</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var l in Model.Cart?.Lines ?? Enumerable.Empty<Cart.CartLine>())
+            {
+                <tr>
+                    <td class="text-left">@l.Project.ProjectName</td>
+                    <td class="text-center">@l.Quantity</td>
+                    <td class="text-right">$25</td>
+                    <td class="text-right">@((l.Quantity * 25).ToString("c")) </td>
+                    <td class="text-center">
+                        <form asp-page-handler="Remove" method="post">
+                            <input type="hidden" name="projectId" value="@l.Project.ProjectId" />
+                            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                            <button type="submit" class="btn-sm btn-danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+        }
+    </tbody>
+
+<tfoot>
+        <tr>
+            <td colspan="3" class="text-right">Total:</td>
+            <td class="text-right">@Model.Cart.ComputeTotal().ToString("c")</td>
+        </tr>
+</tfoot>
+
+
+</table>
+
+
+<div class="text-center">
+    <a asp-page="Index" class="btn btn-primary">Continue Shopping</a>
+    <a asp-page="Checkout" class="btn btn-success">Checkout</a>
+
+</div>
+
+<div class="text-center">
+    <a class="btn btn-primary" href="@Model.ReturnUrl">Keep Donating</a>
+
+</div>

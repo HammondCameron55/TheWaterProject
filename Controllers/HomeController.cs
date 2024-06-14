@@ -16,7 +16,7 @@ namespace TheWaterProject.Controllers
 
         public IActionResult Index(int pageNum, string? projectType)
         {
-            int pageSize = 2;
+            int pageSize = 5;
 
             
             // ProjectListViewModel is a class that contains a list of projects and a PaginationInfo object

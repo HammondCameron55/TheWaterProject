@@ -8,13 +8,24 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<WaterProjectContext>(options =>
 {
-    options.UseSqlite(builder.Configuration["ConnectionStrings:WaterConnection"]);
+    options.UseSqlServer(builder.Configuration["ConnectionStrings:WaterConnection"]);
 }
 );
 
 builder.Services.AddScoped<IWaterRepository, EFWaterRepository>();
 
 builder.Services.AddRazorPages();
+
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession();
+
+builder.Services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
+
 
 var app = builder.Build();
 
@@ -28,6 +39,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSession();
 
 app.UseRouting();
 
